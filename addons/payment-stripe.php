@@ -141,7 +141,8 @@ class CampTix_Payment_Method_Stripe extends CampTix_Payment_Method {
 		 */
 		$checkout_image_url = apply_filters( 'camptix_stripe_checkout_image_url', get_site_icon_url() );
 
-		wp_localize_script( 'stripe-checkout', 'CampTixStripeData', array(
+		wp_localize_script( 'stripe-checkout', 'CampTixStripeData',
+			apply_filters( 'camptix_stripe_payload', array(
 			'public_key'    => $credentials['api_public_key'],
 			'name'          => $options['event_name'],
 			'image'         => ( $checkout_image_url ) ? esc_url( $checkout_image_url ) : '',
@@ -150,7 +151,7 @@ class CampTix_Payment_Method_Stripe extends CampTix_Payment_Method {
 			'currency'      => $options['currency'],
 			'token'         => ! empty( $_POST['tix_stripe_token'] )         ? wp_unslash( $_POST['tix_stripe_token'] )         : '',
 			'receipt_email' => ! empty( $_POST['tix_stripe_receipt_email'] ) ? wp_unslash( $_POST['tix_stripe_receipt_email'] ) : '',
-		) );
+		) ) );
 	}
 
 	/**

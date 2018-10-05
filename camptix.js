@@ -303,7 +303,7 @@ var CampTixStripe = new function() {
 				.map( function() { return this.value; } )
 		);
 
-		var StripeHandler = StripeCheckout.configure({
+		var payload = {
 			key: self.data.public_key,
 			image: self.data.image,
 			locale: 'auto',
@@ -314,7 +314,11 @@ var CampTixStripe = new function() {
 			zipCode: true,
 			email: ( emails.length === 1 ? emails[0] : '' ) || '',
 			token: self.stripe_token_callback,
-		});
+		};
+		if (typeof CampTixStripePayloadFilter == 'function') {
+			payload = CampTixStripePayloadFilter(payload, self.data);
+		}
+		var StripeHandler = StripeCheckout.configure(payload);
 
 		// Close the popup if they hit back.
 		window.addEventListener('popstate', function() {
