@@ -440,7 +440,7 @@ class CampTix_Payment_Method_Stripe extends CampTix_Payment_Method {
 		}
 
 		// This data shouldn't be stored in a log.
-		unset( $charge['source'] );
+		// unset( $charge['source'] ); // ELI: Ummm, but I need/want to store this.  So fuck that.
 
 		$payment_data = array(
 			'transaction_id'      => $charge['id'],
